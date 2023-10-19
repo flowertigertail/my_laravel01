@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+
+    // fetch all users
+    $users = DB::select("select * from users");
+    // $users = DB::select("select * from users where email=?", ['user1@gmail.com']);
+
+    // create new user
+    // $users = DB::insert('insert into users (name, email, password) values (?,?,?)', [
+    //     'user3',
+    //     'user3@gmail.com',
+    //     '1234qwer',
+    // ]);
+
+    // dd($users);
+    foreach ($users as $user) {
+        echo $user->name;
+        echo "<br />";
+    }
 });
 
 Route::get('/dashboard', function () {
