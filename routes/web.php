@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Http\Controllers\Profile\AvatarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +18,14 @@ use Illuminate\Support\Facades\DB;
 */
 
 Route::get('/', function () {
-    // return view('welcome');
+    return view('welcome');
 
     // fetch all users
-    $users = DB::select("select * from users");
+    // $users = DB::select("select * from users");
+    // $users = DB::table("users")->get();
+    // $users = DB::table('users')->get();
+    // $users = User::where('id', 1)->first();
+    // $users = User::all();
     // $users = DB::select("select * from users where email=?", ['user1@gmail.com']);
 
     // create new user
@@ -29,11 +35,11 @@ Route::get('/', function () {
     //     '1234qwer',
     // ]);
 
-    // dd($users);
-    foreach ($users as $user) {
-        echo $user->name;
-        echo "<br />";
-    }
+    // dd($users->name);
+    // foreach ($users as $user) {
+    //     echo $user->name;
+    //     echo "<br />";
+    // }
 });
 
 Route::get('/dashboard', function () {
@@ -43,6 +49,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/avatar', [AvatarController::class, 'update'])->name('profile.avatar');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
